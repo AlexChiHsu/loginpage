@@ -7,14 +7,15 @@ function Tab() {
   return (
     <>
       <div className={styles.tabDiv}>
-        <div>
-          <button className={isLogin === 'login' ? styles.tabFoucs : styles.tabUnFoucs} onClick={() => setIsLogin('login')}>Login</button>
+        <button className={isLogin === 'login' ? styles.tabFoucs : styles.tabUnFoucs} onClick={() => setIsLogin('login')}>
+          Login
           {isLogin === 'login' && <span className={styles.divider}></span>}
-        </div>
-        <div>
-          <button className={isLogin !== 'login' ? styles.tabFoucs : styles.tabUnFoucs} onClick={() => setIsLogin('signUp')}>Sign Up</button>
+        </button>
+
+        <button className={isLogin !== 'login' ? styles.tabFoucs : styles.tabUnFoucs} onClick={() => setIsLogin('signUp')}>
+          Sign Up
           {isLogin !== 'login' && <span className={styles.divider} />}
-        </div>
+        </button>
       </div>
     </>
   )
