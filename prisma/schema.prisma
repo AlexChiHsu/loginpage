@@ -15,4 +15,5 @@ model userList {
   userName     String
   email        String
   password     String
+  PasswordSalt String 
 }
