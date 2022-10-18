@@ -37,10 +37,30 @@ const Home: NextPage = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-    
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (message === 'sign up') {
+      alert('Success');
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
+    }
+  }, [message]);
+
   return (
     <>
-      <Landing userName={userName} setUserName={setUserName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} saveSignUpData={saveSignUpData} login={login} />
+      <Landing
+        userName={userName}
+        setUserName={setUserName}
+        email={email} 
+        setEmail={setEmail}
+        password={password}
+        setPassword={setPassword}
+        saveSignUpData={saveSignUpData}
+        login={login}
+        // message={message} 
+        setMessage={setMessage} />
     </>
   )
 }

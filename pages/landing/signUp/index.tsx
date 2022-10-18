@@ -9,6 +9,7 @@ function SignUp({
   password,
   setPassword,
   saveSignUpData,
+  setMessage,
 } : {
   userName: string,
   setUserName: Function,
@@ -17,11 +18,12 @@ function SignUp({
   password: string,
   setPassword: Function,
   saveSignUpData: Function,
+  setMessage: Function,
 }) {
-
   const onSignUp = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     saveSignUpData(userName, email, password);
+    setMessage('sign up');
   }
   return (
     <>
