@@ -1,11 +1,12 @@
-import { webcrypto } from 'crypto';
 import type { NextPage } from 'next'
 import { useEffect, useState } from 'react';
 import { createPasswordHash, createRandomKey } from './api/createRandomKey';
 import Landing from './landing';
 
 async function saveSignUpData(userName: string, email: any, password: string) {
-  const data = { userName, email, password };
+  const saltKey = await createRandomKey(8);
+  const PasswordSalt = await createPasswordHash(password, saltKey);
+  const data = { userName, email, password, PasswordSalt };
   const response = await fetch('/api/loginAPI', {
     method: 'POST',
     body: JSON.stringify(data)
@@ -32,14 +33,11 @@ async function login(email: any, password: string) {
 
   return await response.json();
 }
-
 const Home: NextPage = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-    // createPasswordHash(password, 'hohsodh').then((e) => console.log(e.length));
-    let a = createPasswordHash(password, 'dfdfaf');
-    console.log(a.then((v) => v))
+    
   return (
     <>
       <Landing userName={userName} setUserName={setUserName} email={email} setEmail={setEmail} password={password} setPassword={setPassword} saveSignUpData={saveSignUpData} login={login} />
