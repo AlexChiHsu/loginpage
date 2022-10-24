@@ -39,14 +39,14 @@ const Home: NextPage = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    if (message === 'sign up') {
-      alert('Success');
-      setTimeout(() => {
-        window.location.reload();
-      }, 300);
-    }
-  }, [message]);
+  // useEffect(() => {
+  //   if (message === 'sign up') {
+  //     alert('Success');
+  //     setTimeout(() => {
+  //       window.location.reload();
+  //     }, 300);
+  //   }
+  // }, [message]);
 
   return (
     <>

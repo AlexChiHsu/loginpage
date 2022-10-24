@@ -11,9 +11,16 @@ datasource db {
 }
 
 model userList {
-  id           Int    @default(autoincrement()) @id
+  id           Int            @id @default(autoincrement())
   userName     String
   email        String
+  userPassword userPassword[]
+}
+
+model userPassword {
+  id           Int      @id @default(autoincrement())
+  userListId   Int      @unique
   password     String
-  PasswordSalt String 
+  passwordSalt String
+  userList     userList @relation(fields: [userListId], references: [id])
 }
