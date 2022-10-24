@@ -1,37 +1,15 @@
 import type { NextPage } from 'next'
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { createPasswordHash, createRandomKey } from './api/createRandomKey';
+import { login, saveSignUpData } from './api/user';
 import Landing from './landing';
 
-async function saveSignUpData(userName: string, email: any, password: string) {
-  const saltKey = await createRandomKey(8);
-  const PasswordSalt = await createPasswordHash(password, saltKey);
-  const data = { userName, email, password, PasswordSalt };
-  const response = await fetch('/api/signUpAPI', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
-
-  if (!response.ok) {
-    throw new Error(response.statusText);
-  }
-
-  return await response.json();
-}
-
-async function login(email: any, password: string) {
-  const data = { email, password };
-  const response = await fetch('/api/loginAPI', {
-    method: 'POST',
-    body: JSON.stringify(data)
-  })
-  return await response.json();
-}
 const Home: NextPage = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   // useEffect(() => {
   //   if (message === 'sign up') {
@@ -41,6 +19,23 @@ const Home: NextPage = () => {
   //     }, 300);
   //   }
   // }, [message]);
+  const onSignUp = useCallback(async () => {
+    const result = await saveSignUpData(userName, email, password);
+    if (result.error) {
+      console.log(result.error);
+    } else {
+      console.log('success!');
+    }
+  }, [email, password, userName]);
+
+  const onLogin = useCallback(async () => {
+    const result = await login(email, password);
+    if (result.error) {
+      console.log(result.error);
+    } else {
+      console.log('success!');
+    }
+  }, [email, password])
 
   return (
     <>
@@ -51,8 +46,8 @@ const Home: NextPage = () => {
         setEmail={setEmail}
         password={password}
         setPassword={setPassword}
-        saveSignUpData={saveSignUpData}
-        login={login}
+        saveSignUpData={onSignUp}
+        login={onLogin}
         // message={message} 
         setMessage={setMessage} />
     </>

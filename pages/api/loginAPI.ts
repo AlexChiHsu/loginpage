@@ -28,7 +28,6 @@ export default async function getUserDetail(req: NextApiRequest, res: NextApiRes
       id: user.id,
       userName: user.userName,
     })
-    // res.status(200).json(savedUserList);
   } catch (err) {
     res.status(400).json({ message: 'Something went wrong' });
   }
