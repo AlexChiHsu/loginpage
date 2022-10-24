@@ -9,21 +9,26 @@ export default async function getUserDetail(req: NextApiRequest, res: NextApiRes
   }
 
   try {
-    const { userName, email, password, PasswordSalt } = JSON.parse(req.body);
+    const { email, password } = JSON.parse(req.body);
 
-    const savedUserList = await prisma.userList.create({
-      data: {
-        userName,
-        email,
-        userPassword: {
-          create: [{
-            password,
-            passwordSalt: PasswordSalt,
-          }]
-        }
-      }
+    const user = await prisma.userList.findFirst({
+      select: {
+        id: true,
+        userName: true,
+        email: true,
+        userPassword: true,
+      },
+      where: { email },
     });
-    res.status(200).json(savedUserList);
+
+    if (!user) return res.status(400).json({ error: 'user not found' });
+    if (user.userPassword[0].password !== password) return res.status(400).json({ error: 'wrong password!' });
+
+    res.status(200).json({
+      id: user.id,
+      userName: user.userName,
+    })
+    // res.status(200).json(savedUserList);
   } catch (err) {
     res.status(400).json({ message: 'Something went wrong' });
   }

@@ -7,7 +7,7 @@ async function saveSignUpData(userName: string, email: any, password: string) {
   const saltKey = await createRandomKey(8);
   const PasswordSalt = await createPasswordHash(password, saltKey);
   const data = { userName, email, password, PasswordSalt };
-  const response = await fetch('/api/loginAPI', {
+  const response = await fetch('/api/signUpAPI', {
     method: 'POST',
     body: JSON.stringify(data)
   })
@@ -25,12 +25,6 @@ async function login(email: any, password: string) {
     method: 'POST',
     body: JSON.stringify(data)
   })
-
-  if (!response.ok) {
-    console.log('login false');
-    throw new Error(response.statusText);
-  }
-
   return await response.json();
 }
 const Home: NextPage = () => {
