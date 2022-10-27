@@ -23,5 +23,17 @@ export async function login(email: any, password: string) {
         body: JSON.stringify(data)
     });
 
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+
     return await response.json();
+}
+
+export async function user(id: number) {
+    const response = await fetch(`/api/${id}`, {
+        method: 'GET',
+    });
+
+    return response.json();
 }

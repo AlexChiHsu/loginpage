@@ -1,13 +1,16 @@
 import type { NextPage } from 'next'
-import { useCallback, useEffect, useState } from 'react';
-import { createPasswordHash, createRandomKey } from './api/createRandomKey';
+import { useRouter } from 'next/router';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { login, saveSignUpData } from './api/user';
 import Landing from './landing';
+import routes from './route/routes';
 
 const Home: NextPage = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [id, setId] = useState(0);
+  const router = useRouter();
   const [message, setMessage] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -30,19 +33,22 @@ const Home: NextPage = () => {
 
   const onLogin = useCallback(async () => {
     const result = await login(email, password);
+
     if (result.error) {
       console.log(result.error);
     } else {
-      console.log('success!');
+      alert('Success');
+      setTimeout(() => {
+        router.replace(routes.user(result.id));
+      }, 300);
     }
-  }, [email, password])
-
+  }, [email, password, router])
   return (
     <>
       <Landing
         userName={userName}
         setUserName={setUserName}
-        email={email} 
+        email={email}
         setEmail={setEmail}
         password={password}
         setPassword={setPassword}

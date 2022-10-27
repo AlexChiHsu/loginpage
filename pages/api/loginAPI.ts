@@ -24,10 +24,7 @@ export default async function getUserDetail(req: NextApiRequest, res: NextApiRes
     if (!user) return res.status(400).json({ error: 'user not found' });
     if (user.userPassword[0].password !== password) return res.status(400).json({ error: 'wrong password!' });
 
-    res.status(200).json({
-      id: user.id,
-      userName: user.userName,
-    })
+    res.status(200).json(user)
   } catch (err) {
     res.status(400).json({ message: 'Something went wrong' });
   }
