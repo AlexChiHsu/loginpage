@@ -28,6 +28,7 @@ const Landing = ({
   setMessage: Function,
 }) => {
   const [tab, setTab] = useState('login');
+  // reset
   return (
     <>
       <div className={styles.container}>
